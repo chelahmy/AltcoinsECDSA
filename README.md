@@ -12,6 +12,7 @@ A Bitcoin address is derived from the public key of the private-public key pair 
 
 The verification of the signed messages doesn't have to be done within the wallet. This PHP code implements the algorithm to verify digitally signed messages by Bitcoin, Denarius and Bitcoin-based Altcoins. Denarius is a Bitcoin-based Altcoin.
 
+Here is another one in C++ https://github.com/chelahmy/dnrverify
 
 REQUIREMENTS
 ===============
