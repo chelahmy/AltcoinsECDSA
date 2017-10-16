@@ -21,17 +21,6 @@ If you want to launch the test file you need to be under a unix system with libb
 USAGE
 ===============
 
-**Installation**
-
-Best way is to use composer
-```
-composer require bitcoin-php/bitcoin-ecdsa
-```
-Alternatively add following snippet in you composer.json
-```
-"bitcoin-php/bitcoin-ecdsa" : ">=1.3"
-```
-
 **Instanciation**
 
 ```php
