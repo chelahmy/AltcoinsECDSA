@@ -39,6 +39,11 @@ use BitcoinPHP\BitcoinECDSA\BitcoinECDSA;
 require_once("src/BitcoinPHP/BitcoinECDSA/BitcoinECDSA.php");
 $bitcoinECDSA = new BitcoinECDSA();
 ```
+for Denarius
+```php
+$bitcoinECDSA = new BitcoinECDSA('DNR');
+```
+
 
 **Set a private key**
 
