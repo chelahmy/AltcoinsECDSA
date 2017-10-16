@@ -9,6 +9,16 @@ WARNING
 
 This piece of software is provided without warranty of any kind, use it at your own risk.
 
+Bitcoin, Denarius and Altcoins Digital Signing
+============================================================
+
+Bitcoin digital signing is the other big thing apart from the blockchain. Every digital wallet has the capability to sign arbitary messages using a private key embedded secretly in the wallet. And anyone with the Bitcoin address paired to the private key can verify the signed messages. This is also true with Denarius and Bitcoin-based Altcoins.
+
+A Bitcoin address is derived from the public key of the private-public key pair generated within the wallet. Only those who own the private key can sign the message. Thus, a verification will proof that the owner of the address had signed the message.
+
+The verification of the signed messages doesn't have to be done within the wallet. This PHP code implements the algorithm to verify digitally signed messages by Bitcoin, Denarius and Bitcoin-based Altcoins. Denarius is a Bitcoin-based Altcoin.
+
+
 REQUIREMENTS
 ===============
 
