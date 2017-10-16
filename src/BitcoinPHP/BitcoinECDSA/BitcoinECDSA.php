@@ -3,6 +3,11 @@
 /**
  *
  * @author Jan Moritz Lindemann
+ *
+ * 2017/10/17:
+ * - Added Altcoins capability by Abdullah Daud, chelahmy@gmail.com
+ * - Added Denarius (DNR)  
+ *
  */
 
 namespace BitcoinPHP\BitcoinECDSA;
@@ -13,16 +18,36 @@ if (!extension_loaded('gmp')) {
 
 class BitcoinECDSA
 {
-
     public $k;
     public $a;
     public $b;
     public $p;
     public $n;
     public $G;
+    public $prefixes;
     public $networkPrefix;
+	public $messageMagic;
+	public $label;
 
-    public function __construct()
+	public function useAlt($alt)
+	{
+		switch ($alt)
+		{
+			case "DNR":
+				$this->prefixes = array(
+					'main' => '1E',
+					'test' => '12'
+				);
+				$this->networkPrefix = $this->prefixes['main']; 
+				$this->messageMagic = "Denarius Signed Message:\n";
+				$this->label = "DENARIUS";	
+				return true;
+		}
+		
+		return false;
+	}
+	
+    public function __construct($alt = false)
     {
         $this->a = gmp_init('0', 10);
         $this->b = gmp_init('7', 10);
@@ -33,8 +58,17 @@ class BitcoinECDSA
                     'x' => gmp_init('55066263022277343669578718895168534326250603453777594175500187360389116729240'),
                     'y' => gmp_init('32670510020758816978083085130507043184471273380659243275938904335757337482424')
                    ];
-
-        $this->networkPrefix = '00';
+		
+		if (!$this->useAlt($alt))
+		{
+			$this->prefixes = array(
+				'main' => '00',
+				'test' => '6f',
+			);
+		    $this->networkPrefix = $this->prefixes['main']; 
+		    $this->messageMagic = "Bitcoin Signed Message:\n";
+		    $this->label = "BITCOIN";
+        }
     }
 
     /***
@@ -82,11 +116,14 @@ class BitcoinECDSA
      *
      * @return string (hexa)
      */
-    public function getPrivatePrefix(){
-        if($this->networkPrefix =='6f')
-            return 'ef';
-        else
-           return '80';
+    public function getPrivatePrefix()
+    {
+		$p = dechex(hexdec($this->networkPrefix) + 0x80);
+		
+		if (strlen($p) < 2)
+			$p = '0' . $p;
+
+		return $p;
     }
 
     /***
@@ -796,7 +833,7 @@ class BitcoinECDSA
      */
     public function generateRandomPrivateKey($extra = 'FSQF5356dsdsqdfEFEQ3fq4q6dq4s5d')
     {
-        $this->k    = $this->generateRandom256BitsHexaString($extra);
+        $this->k = $this->generateRandom256BitsHexaString($extra);
     }
 
     /***
@@ -832,7 +869,7 @@ class BitcoinECDSA
             throw new \Exception('No Private Key was defined');
         }
 
-        $k          = $this->k;
+        $k = $this->k;
         
         while(strlen($k) < 64)
             $k = '0' . $k;
@@ -1001,7 +1038,8 @@ class BitcoinECDSA
     public function signMessage($message, $onlySignature = false ,$compressed = true, $nonce = null)
     {
 
-        $hash   = $this->hash256("\x18Bitcoin Signed Message:\n" . $this->numToVarIntString(strlen($message)). $message);
+        $hash   = $this->hash256($this->numToVarIntString(strlen($this->messageMagic)) . $this->messageMagic . 
+        	$this->numToVarIntString(strlen($message)). $message);
         $points = $this->getSignatureHashPoints(
                                                 $hash,
                                                 $nonce
@@ -1016,7 +1054,7 @@ class BitcoinECDSA
         while(strlen($S) < 64)
             $S = '0' . $S;
 
-        $res = "\n-----BEGIN BITCOIN SIGNED MESSAGE-----\n";
+        $res = str_replace("%label%", $this->label, "\n-----BEGIN %label% SIGNED MESSAGE-----\n");
         $res .= $message;
         $res .= "\n-----BEGIN SIGNATURE-----\n";
         if($compressed === true)
@@ -1055,7 +1093,7 @@ class BitcoinECDSA
         }
 
         $res .= $signature;
-        $res .= "\n-----END BITCOIN SIGNED MESSAGE-----";
+        $res .= str_replace("%label%", $this->label, "\n-----END %label% SIGNED MESSAGE-----");
 
         return $res;
     }
@@ -1263,10 +1301,22 @@ class BitcoinECDSA
     public function checkSignatureForRawMessage($rawMessage)
     {
         //recover message.
-        preg_match_all("#-----BEGIN BITCOIN SIGNED MESSAGE-----\n(.{0,})\n-----BEGIN SIGNATURE-----\n#USi", $rawMessage, $out);
+        $pattern = str_replace("%label%", $this->label,
+        	"#-----BEGIN %label% SIGNED MESSAGE-----\n(.{0,})\n-----BEGIN SIGNATURE-----\n#USi");
+        preg_match_all($pattern, $rawMessage, $out);
+        
+        if (count($out) < 2 || count($out[1]) <= 0)
+        	return false;
+        	
         $message = $out[1][0];
 
-        preg_match_all("#\n-----BEGIN SIGNATURE-----\n(.{0,})\n(.{0,})\n-----END BITCOIN SIGNED MESSAGE-----#USi", $rawMessage, $out);
+		$pattern = str_replace("%label%", $this->label,
+			"#\n-----BEGIN SIGNATURE-----\n(.{0,})\n(.{0,})\n-----END %label% SIGNED MESSAGE-----#USi");
+        preg_match_all($pattern, $rawMessage, $out);
+
+        if (count($out) < 3 || count($out[1]) <= 0 || count($out[2]) <= 0)
+        	return false;
+        	
         $address = $out[1][0];
         $signature = $out[2][0];
 
@@ -1283,7 +1333,8 @@ class BitcoinECDSA
      */
     public function checkSignatureForMessage($address, $encodedSignature, $message)
     {
-        $hash = $this->hash256("\x18Bitcoin Signed Message:\n" . $this->numToVarIntString(strlen($message)) . $message);
+        $hash = $this->hash256($this->numToVarIntString(strlen($this->messageMagic)) . $this->messageMagic . 
+        	$this->numToVarIntString(strlen($message)) . $message);
 
         //recover flag
         $signature = base64_decode($encodedSignature);
