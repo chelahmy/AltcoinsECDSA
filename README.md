@@ -6,18 +6,31 @@ This piece of software is provided without warranty of any kind, use it at your 
 Bitcoin, Denarius and Altcoins Digital Signing
 ============================================================
 
-Bitcoin digital signing is the other big thing apart from the blockchain. Every digital wallet has the capability to sign arbitary messages using a private key embedded secretly in the wallet. And anyone with the Bitcoin address paired to the private key can verify the signed messages. This is also true with [Denarius](https://denarius.io/) and Bitcoin-based Altcoins.
+Bitcoin digital signing is the other big thing aside from the blockchain. Every digital wallet has the capability to sign arbitary messages using a private key secretly embedded in the wallet. Anyone who knows the Bitcoin address which had been created from the private key can verify the signed messages. This is also true with [Denarius](https://denarius.io/) and Bitcoin-based Altcoins.
 
-A Bitcoin address is derived from the public key of the private-public key pair generated within the wallet. Only those who own the private key can sign the message. Thus, a verification will proof that the owner of the address had signed the message.
+A Bitcoin address is created from the public key of the private-public key pair generated within the wallet. Only those who have the private key can sign the message. The owner of a Bitcoin address will do his best to keep its private key secret. Otherwise, his Bitcoin values may be gone. Thus, a signing verification will safely proof that the owner of the address had signed the message himself.
 
-The verification of the signed messages doesn't have to be done within the wallet. This PHP code implements the algorithm to verify digitally signed messages by Bitcoin, Denarius and Bitcoin-based Altcoins. Denarius is a Bitcoin-based Altcoin.
+The Bitcoin public key cryptography is based on Elliptic Curve Digital Signature Algorithm ([ECDSA](https://en.bitcoin.it/wiki/Elliptic_Curve_Digital_Signature_Algorithm)). It uses elliptic-curve cryptography ([ECC](https://en.wikipedia.org/wiki/Elliptic-curve_cryptography)).
 
-Here is another one in C++ https://github.com/chelahmy/dnrverify
+**ECDSA vs RSA**
+
+A snippet from a blog post [ECDSA: The digital signature algorithm of a better internet](https://blog.cloudflare.com/ecdsa-the-digital-signature-algorithm-of-a-better-internet/) by Nick Sullivan:
+
+>Why is ECDSA the algorithm of choice for new protocols when RSA is available and has been the gold standard for asymmetric cryptography since 1977? It boils down to the fact that we are better at breaking RSA than we are at breaking ECC.
+>
+>As we described in a previous blog post, the security of a key depends on its size and its algorithm. Some algorithms are easier to break than others and require larger keys for the same level of security. Breaking an RSA key requires you to factor a large number. We are pretty good at factoring large numbers and getting better all the time. Breaking an ECDSA key requires you to solve the Elliptic Curve Discrete Logarithm Problem (ECDLP). The mathematical community has not made any major progress in improving algorithms to solve this problem since is was independently introduced by Koblitz and Miller in 1985.
+>
+>This means that with ECDSA you can get the same level of security as RSA but with smaller keys. Smaller keys are better than larger keys for several reasons. Smaller keys have faster algorithms for generating signatures because the math involves smaller numbers. Smaller public keys mean smaller certificates and less data to pass around to establish a TLS connection. This means quicker connections and faster loading times on websites.
+
+The verification of a signed message doesn't have to be done within a wallet. This PHP script implements the algorithm to digitally verify signed messages from Bitcoin, Denarius and Bitcoin-based Altcoins. Denarius is a Bitcoin-based Altcoin.
+
+Here is the one implemented in C++ https://github.com/chelahmy/dnrverify extracted from the original Bitcoin code.
 
 REQUIREMENTS
 ===============
 
 *php 5.4.0* or newer.
+
 *php5-gmp* needs to be installed.
 
 USAGE
