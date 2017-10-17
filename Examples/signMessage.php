@@ -1,10 +1,10 @@
 <?php
 
-require_once '../src/BitcoinPHP/BitcoinECDSA/BitcoinECDSA.php';
+require_once '../src/AltcoinsECDSA.php';
 
-use BitcoinPHP\BitcoinECDSA\BitcoinECDSA;
+use AltcoinsECDSA\AtlcoinsECDSA;
 
-$bitcoinECDSA = new BitcoinECDSA();
+$bitcoinECDSA = new AltcoinsECDSA();
 $bitcoinECDSA->generateRandomPrivateKey(); //generate new random private key
 
 $message = "Test message";
