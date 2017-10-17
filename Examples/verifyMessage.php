@@ -1,10 +1,10 @@
 <?php
 
-require_once '../src/BitcoinPHP/BitcoinECDSA/BitcoinECDSA.php';
+require_once '../src/AltcoinsECDSA.php';
 
-use BitcoinPHP\BitcoinECDSA\BitcoinECDSA;
+use AltcoinsECDSA\AltcoinsECDSA;
 
-$bitcoinECDSA = new BitcoinECDSA();
+$bitcoinECDSA = new AltcoinsECDSA();
 
 //To verify a message like this one
 $rawMessage = "-----BEGIN BITCOIN SIGNED MESSAGE-----
