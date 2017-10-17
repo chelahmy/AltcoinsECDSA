@@ -22,7 +22,11 @@ A snippet from a blog post [ECDSA: The digital signature algorithm of a better i
 >
 >This means that with ECDSA you can get the same level of security as RSA but with smaller keys. Smaller keys are better than larger keys for several reasons. Smaller keys have faster algorithms for generating signatures because the math involves smaller numbers. Smaller public keys mean smaller certificates and less data to pass around to establish a TLS connection. This means quicker connections and faster loading times on websites.
 
+**PHP Implementation**
+
 The verification of a signed message doesn't have to be done within a wallet. This PHP script implements the algorithm to digitally verify signed messages from Bitcoin, Denarius and Bitcoin-based Altcoins. Denarius is a Bitcoin-based Altcoin.
+
+**C++ Implementation**
 
 Here is the one implemented in C++ https://github.com/chelahmy/dnrverify extracted from the original Bitcoin code.
 
