@@ -2,7 +2,7 @@
 
 require_once '../src/AltcoinsECDSA.php';
 
-use AltcoinsECDSA\AtlcoinsECDSA;
+use AltcoinsECDSA\AltcoinsECDSA;
 
 $bitcoinECDSA = new AltcoinsECDSA();
 $bitcoinECDSA->generateRandomPrivateKey(); //generate new random private key
