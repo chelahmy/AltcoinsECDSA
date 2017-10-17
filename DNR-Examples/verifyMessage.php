@@ -1,10 +1,10 @@
 <?php
 
-require_once '../src/BitcoinPHP/BitcoinECDSA/BitcoinECDSA.php';
+require_once '../src/AltcoinsECDSA.php';
 
-use BitcoinPHP\BitcoinECDSA\BitcoinECDSA;
+use AltcoinsECDSA\AltcoinsECDSA;
 
-$bitcoinECDSA = new BitcoinECDSA('DNR');
+$altcoinECDSA = new AltcoinsECDSA('DNR');
 
 //To verify a message like this one
 $rawMessage = "-----BEGIN DENARIUS SIGNED MESSAGE-----
@@ -14,7 +14,7 @@ D6EB81Yqu5AGZtggcHjgHsEDujhinUGU3C
 II2jAYE/dz94gHOZt7iVmIU7RLnnXspjjLcdgg3cqnUW7fbUa/sNti8TvZasTlJ0WT401R4oUte9OFfZbftq0oQ=
 -----END DENARIUS SIGNED MESSAGE-----";
 
-if($bitcoinECDSA->checkSignatureForRawMessage($rawMessage)) {
+if($altcoinECDSA->checkSignatureForRawMessage($rawMessage)) {
     echo "Message verified" . PHP_EOL;
 } else {
     echo "Couldn't verify message" . PHP_EOL;
@@ -25,7 +25,7 @@ $signature = "II2jAYE/dz94gHOZt7iVmIU7RLnnXspjjLcdgg3cqnUW7fbUa/sNti8TvZasTlJ0WT
 $address = "D6EB81Yqu5AGZtggcHjgHsEDujhinUGU3C";
 $message = "Hello world!";
 
-if($bitcoinECDSA->checkSignatureForMessage($address, $signature, $message)) {
+if($altcoinECDSA->checkSignatureForMessage($address, $signature, $message)) {
     echo "Message verified" . PHP_EOL;
 } else {
     echo "Couldn't verify message" . PHP_EOL;
