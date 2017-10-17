@@ -26,23 +26,23 @@ If you want to launch the test file you need to be under a unix system with libb
 USAGE
 ===============
 
-**Instanciation**
+**Instantiation**
 
 ```php
-use BitcoinPHP\BitcoinECDSA\BitcoinECDSA;
-require_once("src/BitcoinPHP/BitcoinECDSA/BitcoinECDSA.php");
-$bitcoinECDSA = new BitcoinECDSA();
+use AltcoinsECDSA\AltcoinsECDSA;
+require_once("src/AltcoinsECDSA.php");
+$altcoinECDSA = new AltcoinsECDSA();
 ```
 for Denarius
 ```php
-$bitcoinECDSA = new BitcoinECDSA('DNR');
+$altcoinECDSA = new AltcoinsECDSA('DNR');
 ```
 
 
 **Set a private key**
 
 ```php
-$bitcoinECDSA->setPrivateKey($k);
+$altcoinECDSA->setPrivateKey($k);
 ```
 examples of private keys :
 
@@ -52,7 +52,7 @@ examples of private keys :
 **Generate a random private key**
 
 ```php
-$bitcoinECDSA->generateRandomPrivateKey($nonce);
+$altcoinECDSA->generateRandomPrivateKey($nonce);
 ```
 
 The nonce is optional, typically the nonce is a chunck of random data you get from the user. This can be mouse coordinates.
@@ -61,7 +61,7 @@ Using a nonce adds randomness, which means the generated private key is stronger
 **Get the private key**
 
 ```php
-$bitcoinECDSA->getPrivateKey();
+$altcoinECDSA->getPrivateKey();
 ```
 
 Returns the private key.
@@ -69,7 +69,7 @@ Returns the private key.
 **Get the Wif**
 
 ```php
-$bitcoinECDSA->getWif();
+$altcoinECDSA->getWif();
 ```
 
 returns the private key under the Wallet Import Format
@@ -78,7 +78,7 @@ returns the private key under the Wallet Import Format
 **Get the Public Key**
 
 ```php
-$bitcoinECDSA->getPubKey();
+$altcoinECDSA->getPubKey();
 ```
 Returns the compressed public key.
 The compressed PubKey starts with 0x02 if it's y coordinate is even and 0x03 if it's odd, the next 32 bytes corresponds to the x coordinates.
@@ -88,7 +88,7 @@ Example : 0226c50013603b085fbc26411d5d7e564b252d88964eedc4e01251d2d495e92c29
 **Get the Uncompressed Public Key**
 
 ```php
-$bitcoinECDSA->getUncompressedPubKey();
+$altcoinECDSA->getUncompressedPubKey();
 ```
 
 Returns the The uncompressed PubKey.
@@ -99,7 +99,7 @@ Example : 04c80e8af3f1b7816a18aa24f242fc0740e9c4027d67c76dacf4ce32d2e5aace241c42
 **Get the coordinates of the Public Key**
 
 ```php
-$bitcoinECDSA->getPubKeyPoints();
+$altcoinECDSA->getPubKeyPoints();
 ```
 
 Returns an array containing the x and y coordinates of the public key
@@ -110,7 +110,7 @@ Array ( [x] => a69243f3c4c047aba38d7ac3660317629c957ab1f89ea42343aee186538a34f8 
 **Get the Address**
 
 ```php
-$bitcoinECDSA->getAddress();
+$altcoinECDSA->getAddress();
 ```
 
 Returns the compressed Bitcoin Address.
@@ -118,7 +118,7 @@ Returns the compressed Bitcoin Address.
 **Get the uncompressed Address**
 
 ```php
-$bitcoinECDSA->getUncompressedAddress();
+$altcoinECDSA->getUncompressedAddress();
 ```
 
 Returns the uncompressed Bitcoin Address.
@@ -127,7 +127,7 @@ Returns the uncompressed Bitcoin Address.
 **Validate an address**
 
 ```php
-$bitcoinECDSA->validateAddress($address);
+$altcoinECDSA->validateAddress($address);
 ```
 Returns true if the address is valid and false if it isn't
 
@@ -135,7 +135,7 @@ Returns true if the address is valid and false if it isn't
 **Validate a Wif key**
 
 ```php
-$bitcoinECDSA->validateWifKey($wif);
+$altcoinECDSA->validateWifKey($wif);
 ```
 Returns true if the WIF key is valid and false if it isn't
 
@@ -146,7 +146,7 @@ Signatures
 **Sign a message**
 
 ```php
-$bitcoinECDSA->signMessage('message');
+$altcoinECDSA->signMessage('message');
 ```
 
 Returns a satoshi client standard signed message.
@@ -155,7 +155,7 @@ Returns a satoshi client standard signed message.
 **verify a message**
 
 ```php
-$bitcoinECDSA->checkSignatureForRawMessage($signedMessage);
+$altcoinECDSA->checkSignatureForRawMessage($signedMessage);
 ```
 
 Returns true if the signature is matching the address and false if it isn't.
@@ -164,7 +164,7 @@ Returns true if the signature is matching the address and false if it isn't.
 **sign a sha256 hash**
 
 ```php
-$bitcoinECDSA->signHash($hash);
+$altcoinECDSA->signHash($hash);
 ```
 
 Returns a DER encoded hexadecimal signature.
@@ -173,17 +173,24 @@ Returns a DER encoded hexadecimal signature.
 **verify a signature**
 
 ```php
-$bitcoinECDSA->checkDerSignature($pubKey, $signature, $hash)
+$altcoinECDSA->checkDerSignature($pubKey, $signature, $hash)
 ```
 
 Returns true if the signature is matching the public key and false if it isn't.
 
-Examples
-===============
- - [Generate an address](https://github.com/chelahmy/BitcoinECDSA.php/blob/master/DNR-Examples/generateAddress.php)
- - [Sign a message](https://github.com/chelahmy/BitcoinECDSA.php/blob/master/DNR-Examples/signMessage.php)
- - [Verify a message](https://github.com/chelahmy/BitcoinECDSA.php/blob/master/DNR-Examples/verifyMessage.php)
- - [Import or export a private key using WIF](https://github.com/chelahmy/BitcoinECDSA.php/blob/master/DNR-Examples/wif.php)
+Bitcoin Examples
+=================
+ - [Generate an address](https://github.com/chelahmy/AltcoinECDSA/blob/master/Examples/generateAddress.php)
+ - [Sign a message](https://github.com/chelahmy/AltcoinECDSA/blob/master/Examples/signMessage.php)
+ - [Verify a message](https://github.com/chelahmy/AltcoinECDSA/blob/master/Examples/verifyMessage.php)
+ - [Import or export a private key using WIF](https://github.com/chelahmy/AltcoinECDSA/blob/master/Examples/wif.php)
+
+Denarius Examples
+=================
+ - [Generate an address](https://github.com/chelahmy/AltcoinECDSA/blob/master/DNR-Examples/generateAddress.php)
+ - [Sign a message](https://github.com/chelahmy/AltcoinECDSA/blob/master/DNR-Examples/signMessage.php)
+ - [Verify a message](https://github.com/chelahmy/AltcoinECDSA/blob/master/DNR-Examples/verifyMessage.php)
+ - [Import or export a private key using WIF](https://github.com/chelahmy/AltcoinECDSA/blob/master/DNR-Examples/wif.php)
 
 License
 ===============
