@@ -18,10 +18,7 @@ REQUIREMENTS
 ===============
 
 *php 5.4.0* or newer.
-
 *php5-gmp* needs to be installed.
-
-If you want to launch the test file you need to be under a unix system with libbitcoin intalled on it.
 
 USAGE
 ===============
@@ -31,7 +28,7 @@ USAGE
 ```php
 use AltcoinsECDSA\AltcoinsECDSA;
 require_once("src/AltcoinsECDSA.php");
-$altcoinECDSA = new AltcoinsECDSA();
+$bitcoinECDSA = new AltcoinsECDSA();
 ```
 for Denarius
 ```php
