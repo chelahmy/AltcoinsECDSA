@@ -1,10 +1,10 @@
 <?php
 
-require_once '../src/BitcoinPHP/BitcoinECDSA/BitcoinECDSA.php';
+require_once '../src/AltcoinsECDSA.php';
 
-use BitcoinPHP\BitcoinECDSA\BitcoinECDSA;
+use AltcoinsECDSA\AltcoinsECDSA;
 
-$bitcoinECDSA = new BitcoinECDSA();
+$bitcoinECDSA = new AltcoinsECDSA();
 $bitcoinECDSA->generateRandomPrivateKey(); //generate new random private key
 
 $wif = $bitcoinECDSA->getWif();
@@ -15,7 +15,7 @@ echo "WIF : " . $wif . PHP_EOL;
 unset($bitcoinECDSA); //destroy instance
 
 //import wif
-$bitcoinECDSA = new BitcoinECDSA();
+$bitcoinECDSA = new AltcoinsECDSA();
 if($bitcoinECDSA->validateWifKey($wif)) {
     $bitcoinECDSA->setPrivateKeyWithWif($wif);
     $address = $bitcoinECDSA->getAddress();
