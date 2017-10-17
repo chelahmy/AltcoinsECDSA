@@ -1,14 +1,14 @@
 <?php
 
-require_once '../src/BitcoinPHP/BitcoinECDSA/BitcoinECDSA.php';
+require_once '../src/AltcoinsECDSA.php';
 
-use BitcoinPHP\BitcoinECDSA\BitcoinECDSA;
+use AltcoinsECDSA\AltcoinsECDSA;
 
-$bitcoinECDSA = new BitcoinECDSA('DNR');
-$bitcoinECDSA->generateRandomPrivateKey(); //generate new random private key
+$altcoinECDSA = new AltcoinsECDSA('DNR');
+$altcoinECDSA->generateRandomPrivateKey(); //generate new random private key
 
 $message = "Test message";
-$signedMessage = $bitcoinECDSA->signMessage($message);
+$signedMessage = $altcoinECDSA->signMessage($message);
 
 echo "signed message:" . PHP_EOL;
 echo $signedMessage . PHP_EOL;
@@ -26,7 +26,7 @@ IBbaxwHyUjLP2T50mIusMe3ATi2vA6JaI8l6V8Hnm4n2FmSxhtGwal4YFI+7xfPB/mDX5dmp17DJ84Lc
 
 
 // If you only want the signature you can do this
-$signature = $bitcoinECDSA->signMessage($message, true);
+$signature = $altcoinECDSA->signMessage($message, true);
 
 echo "signature:" . PHP_EOL;
 echo $signature . PHP_EOL;
