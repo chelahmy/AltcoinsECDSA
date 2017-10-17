@@ -10,22 +10,22 @@
  *
  */
 
-namespace BitcoinPHP\BitcoinECDSA;
+namespace AltcoinsECDSA;
 
 if (!extension_loaded('gmp')) {
     throw new \Exception('GMP extension seems not to be installed');
 }
 
-class BitcoinECDSA
+class AltcoinsECDSA
 {
-    public $k;
-    public $a;
-    public $b;
-    public $p;
-    public $n;
-    public $G;
-    public $prefixes;
-    public $networkPrefix;
+	public $k;
+	public $a;
+	public $b;
+	public $p;
+	public $n;
+	public $G;
+	public $prefixes;
+	public $networkPrefix;
 	public $messageMagic;
 	public $label;
 
@@ -33,7 +33,17 @@ class BitcoinECDSA
 	{
 		switch ($alt)
 		{
-			case "DNR":
+			case 'BTC':
+				$this->prefixes = array(
+					'main' => '00',
+					'test' => '6f'
+				);
+				$this->networkPrefix = $this->prefixes['main']; 
+				$this->messageMagic = "Bitcoin Signed Message:\n";
+				$this->label = "BITCOIN";	
+				return true;
+
+			case 'DNR':
 				$this->prefixes = array(
 					'main' => '1E',
 					'test' => '12'
@@ -47,7 +57,7 @@ class BitcoinECDSA
 		return false;
 	}
 	
-    public function __construct($alt = false)
+    public function __construct($alt = 'BTC')
     {
         $this->a = gmp_init('0', 10);
         $this->b = gmp_init('7', 10);
@@ -59,16 +69,7 @@ class BitcoinECDSA
                     'y' => gmp_init('32670510020758816978083085130507043184471273380659243275938904335757337482424')
                    ];
 		
-		if (!$this->useAlt($alt))
-		{
-			$this->prefixes = array(
-				'main' => '00',
-				'test' => '6f',
-			);
-		    $this->networkPrefix = $this->prefixes['main']; 
-		    $this->messageMagic = "Bitcoin Signed Message:\n";
-		    $this->label = "BITCOIN";
-        }
+	$this->useAlt($alt);
     }
 
     /***
